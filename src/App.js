@@ -1,8 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import initFirebase from "./utils/initFirebase";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  useEffect(() => {
+    initFirebase();
+    uploadData();
+  }, []);
+
+  const uploadData = () => {
+    const db = firebase.firestore();
+
+    db.collection("users")
+      .add({
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815,
+      })
+      .then(function (docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+
+    return {};
+  };
+
   return (
     <div className="App">
       <header className="App-header">
